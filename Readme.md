@@ -1,26 +1,35 @@
-# Smartwyre Developer Test Instructions
+# Smartwyre Developer Test - Main Documentation
 
-In the 'RebateService.cs' file you will find a method for calculating a rebate. At a high level the steps for calculating a rebate are:
+How to Run:
 
- 1. Lookup the rebate that the request is being made against.
- 2. Lookup the product that the request is being made against.
- 2. Check that the rebate and request are valid to calculate the incentive type rebate.
- 3. Store the rebate calculation.
+1. In the Smartwyre.DeveloperTest.Runner directory, 
+2. Open a new command prompt in PowerShell
+3. Run the following commands:
+   1. dotnet build
+   2. dotnet run
+  
+How to Test
+1. In the root of the solution, open a new command prompt in PowerShell
+2. Run the following command:
+   1. dotnet test
 
-What we'd like you to do is refactor the code with the following things in mind:
 
- - Adherence to SOLID principles
- - Testability
- - Readability
- - Currently there are 3 known incentive types. In the future the business will want to add many more incentive types. Your solution should make it easy for developers to add new incentive types in the future.
+Post-Refactor Features:
 
-We’d also like you to 
- - Add some unit tests to the Smartwyre.DeveloperTest.Tests project to show how you would test the code that you’ve produced 
- - Run the RebateService from the Smartwyre.DeveloperTest.Runner console application accepting inputs
+- Testable
+- Dependency Injection allowed
+- Open the possibility of more Incentive Types
+- Respecting the SOLID concepts:
+   1.	Single Responsibility Principle (SRP): Each class has a single responsibility. The RebateService class is responsible for coordinating the rebate calculation, while individual calculators handle the logic for specific incentive types.
+   2.	Open/Closed Principle (OCP): The RebateService class is open for extension but closed for modification. New incentive types can be added by creating new classes that implement the IIncentiveCalculator interface.
+   3.	Liskov Substitution Principle (LSP): The IIncentiveCalculator interface ensures that any new incentive calculator can be used interchangeably.
+   4.	Interface Segregation Principle (ISP): The IIncentiveCalculator interface is specific to the needs of the incentive calculation.
+   5.	Dependency Inversion Principle (DIP): The RebateService class depends on abstractions (IRebateDataStore, IProductDataStore, and IIncentiveCalculator) rather than concrete implementations.
 
-The only specific 'rules' are:
+How to Create a New Incentive Type:
+1.	Define the new incentive type in the IncentiveType enum.
+2.	Create a new class that implements the IIncentiveCalculator interface.
+3.	Implement the CanCalculate and Calculate methods in the new class.
+4.	Register the new calculator in the dependency injection container.
 
-- The solution should build
-- The tests should all pass
 
-You are free to use any frameworks/NuGet packages that you see fit. You should plan to spend around 1 hour completing the exercise.
